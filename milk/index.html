@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             background: url('https://xatimg.com/image/evHp9s9plunf.jpg');
             background-size: cover;
-            color: #000;
+            color: #FFFFFF;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,10 +18,29 @@
             margin: 0;
         }
 
+        /* Apply Times New Roman italic to everything */
+        body * {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+
+        /* Exclude specific elements */
+        .tab-link,
+        .tab-link.active,
+        .tab-content,
+        .tab-content ul,
+        .tab-content ul li,
+        .tab-content ul li a,
+        .roles,
+        .role {
+            font-family: Arial, sans-serif;
+            font-style: normal;
+        }
+
         .profile-card {
             width: 420px;
             height: 600px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #D2B4B4;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -31,7 +50,7 @@
         .background {
             position: relative;
             height: 150px;
-            background: url('https://xatimg.com/image/9NBb3LkU9sJ0.jpg') no-repeat center center;
+            background: url('https://xatimg.com/image/o00TTUgQDQ49.jpg') no-repeat center center;
             background-size: cover;
         }
 
@@ -41,10 +60,10 @@
             left: 20px;
             width: 80px;
             height: 80px;
-            border: 5px solid rgba(255, 255, 255, 0.9);
+            border: 5px solid #D2B4B4;
             border-radius: 50%;
             overflow: hidden;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #D2B4B4;
         }
 
         .profile-picture img {
@@ -60,7 +79,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background-color: #43b581;
+            background-color: #D2B4B4;
             border: 2px solid #fff;
         }
 
@@ -68,20 +87,20 @@
             text-align: center;
             padding-top: 85px;
             padding-bottom: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background-color: #D2B4B4;
+            color: #FFFFFF;
         }
 
         .profile-info h1 {
             margin: 0;
             font-size: 24px;
-            color: #333;
+            color: #FFFFFF;
         }
 
         .profile-info p {
             margin: 5px 0;
             font-size: 14px;
-            color: #555;
+            color: #FFFFFF;
         }
 
         .roles {
@@ -96,37 +115,37 @@
             padding: 2px 8px;
             border-radius: 5px;
             font-size: 12px;
-            color: #fff;
+            color: #FFFFFF;
         }
 
         .role.crew {
-            background-color: #f1c40f;
+            background-color: #e5c4c4;
         }
 
         .role.halo {
-            background-color: #43b581;
+            background-color: #e5c4c4;
         }
 
         .role.admin {
-            background-color: #f04747;
+            background-color: #e5c4c4;
         }
 
         .role.bots {
-            background-color: #7289da;
+            background-color: #e5c4c4;
         }
 
         .role.kay {
-            background-color: #a643b7;
+            background-color: #e5c4c4;
         }
 
         .role.booster {
-            background-color: #ff73fa;
+            background-color: #e5c4c4;
         }
 
         .tabs {
             display: flex;
             justify-content: space-around;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #D2B4B4;
             border-bottom: 1px solid #ddd;
         }
 
@@ -136,14 +155,14 @@
             text-align: center;
             background-color: transparent;
             border: none;
-            color: #333;
+            color: #FFFFFF;
             cursor: pointer;
             font-size: 14px;
             position: relative;
         }
 
         .tab-link.active {
-            color: #000;
+            color: #FFFFFF;
         }
 
         .tab-link.active::after {
@@ -153,7 +172,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background-color: #000;
+            background-color: #FFFFFF;
         }
 
         .tab-content {
@@ -177,20 +196,19 @@
             display: flex;
             align-items: center;
             padding: 5px 10px;
-            border-bottom: 1px solid #ddd;
-            color: #333;
+            color: #FFFFFF;
             cursor: pointer;
         }
 
         ul li a {
-            color: #333;
+            color: #FFFFFF;
             text-decoration: none;
             width: 100%;
-            text-align: left;
+            text-align: center;
         }
 
         ul li:hover {
-            background-color: #f0f0f0;
+            background-color: #e5c4c4;
         }
 
         .connections a {
@@ -199,13 +217,13 @@
         }
 
         .connections a:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
 
         .bio {
             margin: 10px 0;
             padding: 10px;
-            background-color: #f9f9f9;
+            background-color: #e5c4c4;
             border-radius: 5px;
             color: #333;
         }
@@ -216,12 +234,12 @@
         }
 
         ul::-webkit-scrollbar-thumb {
-            background-color: #a9957b;
+            background-color: #F1F1F1;
             border-radius: 10px;
         }
 
         ul::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #e5c4c4;
             border-radius: 10px;
         }
     </style>
@@ -231,47 +249,38 @@
     <div class="profile-card">
         <div class="background"></div>
         <div class="profile-picture">
-            <img src="https://xatimg.com/image/o6KWufAhaepb.png" alt="Profile Picture">
+            <img src="https://xatimg.com/image/z9ENHPpj6Nay.gif" alt="Profile Picture">
             <div class="status-icon"></div>
         </div>
         <div class="profile-info">
-            <h1>milk</h1>
-            <p>(175000931)</p>
+            <font size="9">milk</font>
+            <p>˚ ༘ ೀ⋆♡｡˚</p>
             <div class="roles">
-                <span class="role crew">Nub</span>
-                <span class="role admin">Canadian</span>
-                <span class="role bots">Bot</span>
-                <span class="role kay">Milk</span>
-                <span class="role booster">Server Booster</span>
+                <span class="role crew">she/her</span>
+                <span class="role admin">shy</span>
+                <span class="role bots">sleepy</span>
             </div>
             <div class="tabs">
-                <button class="tab-link active" onclick="openTab(event, 'about')">About Me</button>
-                <button class="tab-link" onclick="openTab(event, 'friends')">7 Mutual Friends</button>
-                <button class="tab-link" onclick="openTab(event, 'servers')">2 Mutual Servers</button>
+                <button class="tab-link active" onclick="openTab(event, 'about')">✿</button>
+                <button class="tab-link" onclick="openTab(event, 'friends')">♡</button>
             </div>
             <div id="about" class="tab-content active">
                 <div class="bio">
-                    <p>I don't care. I literally can't even.</p>
+                    <p>cinnamoroll enthusiast.</p>
                 </div>
-                <p>cinnamoroll enthusiast.</p>
-				<img src="https://xatimg.com/image/VM98fS7wk12X.gif" alt="gif" width="100">
+                <img src="https://xatimg.com/image/VM98fS7wk12X.gif" alt="gif" width="100">
             </div>
             <div id="friends" class="tab-content">
                 <ul>
-                    <li><a href="https://xat.me/royalty">leia</a></li>
-                    <li><a href="https://xat.me/seven">seven</a></li>
-                    <li><a href="https://xat.me/marie">marie</a></li>
-                    <li><a href="https://xat.me/princess">bonnie</a></li>
-                    <li><a href="https://xat.me/vowelmovement">g1rl</a></li>
-                    <li><a href="https://xat.me/nature">mia</a></li>
-                    <li><a href="https://xat.me/david">david</a></li>
-                    <li><a href="https://xat.me/sergio">sergio</a></li>
+                    <li><a href="https://xat.me/royalty"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑳𝒆𝒊𝒂</a></li>
+                    <li><a href="https://xat.me/seven"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑺𝒆𝒗𝒆𝒏</a></li>
+                    <li><a href="https://xat.me/marie"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑴𝒂𝒓𝒊𝒆</a></li>
+                    <li><a href="https://xat.me/princess"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑳𝒐𝒃𝒂</a></li>
+                    <li><a href="https://xat.me/vowelmovement"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑴𝒂𝒓𝒊𝒂𝒉</a></li>
+                    <li><a href="https://xat.me/nature"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑴𝒊𝒂</a></li>
+                    <li><a href="https://xat.me/david"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑫𝒂𝒗𝒊𝒅</a></li>
+                    <li><a href="https://xat.me/sergio"><img src="https://xatimg.com/image/nAQDTvD7WgIp.gif">𝑺𝒆𝒓𝒈𝒊𝒐</a></li>
                 </ul>
-            </div>
-            <div id="servers" class="tab-content">
-                <ul>
-                    <li><a href="https://xat.com/help"><img src="https://xat.com/content/web/R00179//img/navbar/help.svg" alt="Help"> Help</li></a>
-                    <li><a href="https://xat.com/trade"><img src="https://xat.com/content/web/R00179//img/navbar/trade.svg" alt="Trade"> Trade</li></a>
                 </ul>
             </div>
         </div>
