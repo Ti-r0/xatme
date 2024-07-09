@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaper</title>
+    <style>
+        @keyframes glow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #fff;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: lime;
+            font-family: monospace;
+            font-size: 24px;
+            white-space: pre;
+            flex-direction: column;
+        }
+
+        .loading-text {
+            margin-bottom: 20px;
+        }
+
+        .profile-card-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 420px;
+            height: 560px;
+            background-color: #23272a;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+        }
+
+        .window-controls {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            background-color: #2c2f33;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .window-controls button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .profile-card {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px; /* Adjust for window controls height */
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 150px;
+            background: url('https://i.pinimg.com/564x/81/9c/81/819c81fcce35f46e24b2705bca53ef02.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .profile-picture {
+            position: absolute;
+            top: 110px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            border: 5px solid #23272a;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #23272a;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-icon {
+            position: absolute;
+            top: 150px;
+            left: 75px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #43b581;
+            border: 2px solid #fff;
+        }
+
+        .profile-info {
+            text-align: center;
+            padding-top: 170px;
+            padding-bottom: 20px;
+            background-color: #23272a;
+        }
+
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #fff;
+            background: linear-gradient(270deg, #ff4da6, #a64dff, #4dff4d, #ff4d4d, #4da6ff);
+            background-size: 1000% 1000%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 10s linear infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #b9bbbe;
+        }
+
+        .roles {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .role-item {
+            display: flex;
+            align-items: center;
+            padding: 0.2rem 0.4rem;
+            border: 1px solid #555;
+            border-radius: 0.3rem;
+            background-color: #333;
+            color: #fff;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .role-item span {
+            margin-left: 0.3rem;
+        }
+
+        .role-item.verified {
+            border: 1px solid #00C7FD;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: #2c2f33;
+            border-bottom: 1px solid #40444b;
+        }
+
+        .tab-link {
+            padding: 10px;
+            flex: 1;
+            text-align: center;
+            background-color: transparent;
+            border: none;
+            color: #b9bbbe;
+            cursor: pointer;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .tab-link.active {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .tab-link.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #7289da;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+            background-color: #23272a;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        ul li {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-bottom: 1px solid #40444b;
+            color: #b9bbbe;
+            cursor: pointer;
+            justify-content: flex-start;
+        }
+
+        ul li img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            color: #ff4da6;
+        }
+
+        ul li:hover {
+            background-color: #40444b;
+        }
+
+        /* Custom scrollbar styles */
+        ul::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ul::-webkit-scrollbar-track {
+            background: #2c2f33;
+        }
+
+        ul::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 10px;
+        }
+
+        ul::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        .connections a {
+            color: #7289da;
+            text-decoration: none;
+        }
+
+        .connections a:hover {
+            text-decoration: underline;
+        }
+        
+        .bio {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #2c2f33;
+            border-radius: 5px;
+            color: #b9bbbe;
+        }
+
+        .minimized-window {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #2c2f33;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .minimized-window img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .maximized .window-controls {
+            display: none;
+        }
+
+        .maximized .tabs {
+            display: none;
+        }
+
+        .maximized .profile-picture {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .maximized .window-controls {
+            display: flex;
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+
+        .maximized {
+            width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+            left: 0 !important;
+            transform: none !important;
+            border-radius: 0 !important;
+        }
+
+        /* Popup styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background-color: #23272a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .popup iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .popup .window-controls {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            z-index: 1001;
+            background: none;
+        }
+
+        .popup .window-controls button {
+            background: #ff4da6;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text" id="loadingText">
+            <span>&lt;</span><span id="loadingChar"> </span><span>&gt;</span><span>_</span>
+        </div>
+    </div>
+    <div class="profile-card-container" id="profileCardContainer">
+        <div class="window-controls">
+            <button onclick="minimizeWindow()">_</button>
+            <button onclick="maximizeWindow()">□</button>
+            <button onclick="closeWindow()">×</button>
+        </div>
+        <div class="profile-card" id="profileCard">
+            <div class="background"></div>
+            <div class="profile-picture">
+                <img src="https://i.pinimg.com/564x/ac/c2/b0/acc2b006ec80d9b7e2961356f07db36a.jpg" alt="Profile Picture">
+                <div class="status-icon"></div>
+            </div>
+            <div class="profile-info">
+                <h1 id="username">Reaper</h1>
+                <p>@Viral</p>
+                <div class="roles">
+                    <div class="role-item" onclick="removeRole(this)">📟<span>(120746692)</span></div>
+                    <div class="role-item" onclick="removeRole(this)">🙏<span>Viral</span></div>
+                    <div class="role-item verified" onclick="removeRole(this)">🙉<span>Trump</span></div>
+                    <div class="role-item" onclick="removeRole(this)">🗽<span>USA</span></div>
+					<div class="role-item" onclick="removeRole(this)">🤖<span>BOT</span></div>
+                </div>
+                <div class="tabs">
+                    <button class="tab-link active" onclick="openTab(event, 'about')">About Me</button>
+                    <button class="tab-link" onclick="openTab(event, 'friends')">4 Mutual Friends</button>
+                    <button class="tab-link" onclick="openTab(event, 'servers')">2 Mutual Servers</button>
+                </div>
+                <div id="about" class="tab-content active">
+                    <div class="bio">
+                        <p>Hold my beer, i'm doing hotgirl shit.</p>
+                    </div>
+                    <p>I love my son Tiro</p>
+                </div>
+                <div id="friends" class="tab-content">
+                    <ul>
+                        <li><a href="https://xat.me/Goofy" target="_blank"><img src="https://img.icons8.com/color/48/000000/person-male.png" alt="Tiro">Tiro</a></li>
+                        <li><a href="https://xat.me/royalty" target="_blank"><img src="https://img.icons8.com/color/48/000000/person-male.png" alt="iMan">Royalty</a></li>
+                        <li><a href="https://xat.me/vamp" target="_blank"><img src="https://img.icons8.com/color/48/000000/person-male.png" alt="Rexor">Vamp</a></li>
+                        <li><a href="https://xat.me/Tom2" target="_blank"><img src="https://img.icons8.com/color/48/000000/person-male.png" alt="Rexor">Fake Tom1</a></li>
+                    </ul>
+                </div>
+                <div id="servers" class="tab-content">
+                    <ul>
+                        <li onclick="openPopup('https://xat.com/embed/chat.php#id=1913106&gn=Help')"><img src="https://xat.com/content/web/R00179//img/navbar/help.svg" alt="Help"> Help</li>
+                        <li onclick="openPopup('https://xat.com/embed/chat.php#id=5633523&gn=Trade')"><img src="https://xat.com/content/web/R00179//img/navbar/trade.svg" alt="Trade"> Trade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="minimized-window" id="minimizedWindow" onclick="openWindow()">
+        <img src="https://i.pinimg.com/564x/ac/c2/b0/acc2b006ec80d9b7e2961356f07db36a.jpg" alt="Profile Picture">
+        Reaper's Xatspace
+    </div>
+
+    <div class="popup" id="popup">
+        <div class="window-controls">
+            <button onclick="closePopup()">×</button>
+        </div>
+        <iframe src="" id="popupIframe" scrolling="no"></iframe>
+    </div>
+
+    <script>
+        function openTab(event, tabName) {
+            var i, tabcontent, tablinks;
+
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove "active" class from all tab links
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                tablinks[i].classList.remove('active');
+            }
+
+            // Show the current tab and add "active" class to the clicked tab link
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.classList.add('active');
+        }
+
+        // Display the first tab by default
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tab-content").style.display = "block";
+            document.querySelector(".tab-link").className += " active";
+        });
+
+        function removeRole(role) {
+            role.style.display = 'none';
+        }
+
+        function minimizeWindow() {
+            document.getElementById('profileCardContainer').style.display = 'none';
+            document.getElementById('minimizedWindow').style.display = 'flex';
+        }
+
+        function maximizeWindow() {
+            var profileCardContainer = document.getElementById('profileCardContainer');
+            profileCardContainer.classList.toggle('maximized');
+        }
+
+        function closeWindow() {
+            document.getElementById('profileCardContainer').style.display = 'none';
+            document.getElementById('minimizedWindow').style.display = 'flex';
+        }
+
+        function openWindow() {
+            document.getElementById('profileCardContainer').style.display = 'flex';
+            document.getElementById('minimizedWindow').style.display = 'none';
+        }
+
+        function openPopup(url) {
+            document.getElementById('popupIframe').src = url;
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('popupIframe').src = '';
+        }
+
+        // Open the profile card initially
+        window.onload = function() {
+            document.getElementById('profileCardContainer').style.display = 'flex';
+        };
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                // if present, the header is where you move the DIV from:
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        dragElement(document.getElementById("profileCardContainer"));
+
+        // Loading screen effect
+        let text = "120746692 Welcome to Reaper 120746692";
+        let index = 0;
+        let loadingChar = document.getElementById('loadingChar');
+
+        function typeEffect() {
+            if (index < text.length) {
+                loadingChar.textContent = text.substring(0, index + 1);
+                index++;
+                setTimeout(typeEffect, 100);
+            } else {
+                setTimeout(showProfileCard, 1000);
+            }
+        }
+
+        function showProfileCard() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('profileCardContainer').style.display = 'flex';
+        }
+
+        window.onload = function() {
+            typeEffect();
+        };
+    </script>
+</body>
+</html>
