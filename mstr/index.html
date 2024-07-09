@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Table with Banner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #D7A3FF, #BA72ED);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .banner {
+            width: 100%;
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 20px;
+        }
+
+        .banner img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        th {
+            background-color: #bfbfbf; /* Darker gray */
+            color: #000;
+            cursor: pointer;
+            position: sticky;
+            top: 0;
+        }
+
+        th.sort-asc::after {
+            content: ' \25B2';
+        }
+
+        th.sort-desc::after {
+            content: ' \25BC';
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #fefefe;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        thead th:hover {
+            background-color: #c7c7c7; /* Darker gray on hover */
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="banner-image-url" alt="Banner Image">
+    </div>
+
+    <table id="xatsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Valor</th>
+                <th>Digits</th>
+                <th>Registered</th>
+                <th>Reglink</th>
+                <th>Seller</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('ids.txt')
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.trim().split('\n');
+                    const tableBody = document.querySelector('#xatsTable tbody');
+                    
+                    rows.forEach(row => {
+                        const columns = row.split(',');
+                        const id = columns[0];
+                        const valor = columns[1];
+                        const registered = columns[2];
+                        const reglink = columns[3];
+                        const seller = columns[4];
+                        const digits = id.length;
+
+                        const formattedValor = parseInt(valor).toLocaleString() + ' xats';
+                        
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>(${id})</td>
+                            <td>${formattedValor}</td>
+                            <td>${digits}</td>
+                            <td>${registered}</td>
+                            <td>${reglink}</td>
+                            <td>${seller}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+
+                    document.querySelectorAll('th').forEach(th => th.addEventListener('click', function () {
+                        const table = th.closest('table');
+                        Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+                            .sort((a, b) => {
+                                const idx = Array.from(th.parentNode.children).indexOf(th);
+                                const asc = this.asc = !this.asc;
+                                const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+                                const comparer = (a, b) => ((v1, v2) =>
+                                    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+                                )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+                                return comparer(a, b);
+                            })
+                            .forEach(tr => table.appendChild(tr));
+                        
+                        th.classList.toggle('sort-asc', this.asc);
+                        th.classList.toggle('sort-desc', !this.asc);
+                    }));
+                });
+        });
+    </script>
+</body>
+</html>
