@@ -1,4 +1,3 @@
-12131313,1200500,Never,Reglink Disponible,Mstr (1007)
 321313215,1500000,Yes,Reglink Disponible,Mstr (1007)
 978998989,350000,Never,Reglink Disponible,Mstr (1007)
 98989898,250000,Never,Reglink Disponible,Mstr (1007)
