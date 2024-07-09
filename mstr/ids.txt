@@ -1,0 +1,7 @@
+12131313,1200500,Never,Reglink Disponible,Mstr (1007)
+321313215,1500000,Yes,Reglink Disponible,Mstr (1007)
+978998989,350000,Never,Reglink Disponible,Mstr (1007)
+98989898,250000,Never,Reglink Disponible,Mstr (1007)
+321321321,60000,Never,Reglink Disponible,Mstr (1007)
+313213,60000,Never,Reglink Disponible,Mstr (1007)
+21546654,60000,Yes,Reglink 07/31/2024,Mstr (1007)
