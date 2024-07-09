@@ -22,7 +22,7 @@
         .banner {
             width: 100%;
             text-align: center;
-            padding: 45px 0; /* Increased by 5px */
+            padding: 51px 0; /* Increased by 6px */
             margin-bottom: 20px;
         }
 
@@ -110,7 +110,7 @@
 </head>
 <body>
     <div class="banner">
-        <img src="banner-image-url" alt="Banner Image">
+        <img src="Banner" alt="Banner Image">
     </div>
 
     <table id="xatsTable">
@@ -137,8 +137,8 @@
                 .then(data => {
                     const rows = data.trim().split('\n');
                     const tableBody = document.querySelector('#xatsTable tbody');
-                    
-                    rows.forEach(row => {
+
+                    const promises = rows.map(row => {
                         const columns = row.split(',');
                         if (columns.length < 4) return; // Skip malformed entries
                         const id = columns[0];
@@ -148,7 +148,7 @@
                         const digits = id.length;
 
                         const formattedValor = parseInt(valor).toLocaleString() + ' xats';
-                        
+
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td>(${id})</td>
@@ -161,76 +161,104 @@
                         tableBody.appendChild(tr);
 
                         // Fetch registration status
-                        fetch(`https://api.xatblog.net/id2reg/${id}`)
-                            .then(response => response.json())
+                        return fetch(`https://api.xatblog.net/id2reg/${id}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
                             .then(regData => {
                                 const regCell = document.getElementById(`registered-${id}`);
                                 if (regData.code === 200) {
                                     regCell.textContent = 'Registered';
+                                } else if (regData.code === 404) {
+                                    regCell.textContent = 'Unregistered';
                                 } else {
-                                    regCell.textContent = 'Available';
+                                    regCell.textContent = 'Error';
+                                    console.error(`Unexpected response: ${JSON.stringify(regData)}`);
                                 }
                             })
-                            .catch(error => console.error('Error fetching registration data:', error));
+                            .catch(error => {
+                                console.error('Error fetching registration data:', error);
+                                const regCell = document.getElementById(`registered-${id}`);
+                                regCell.textContent = 'Unregistered';
+                            });
                     });
 
-                    // Adjust table sorting functionality to prevent stuck IDs
-                    document.querySelectorAll('th').forEach(th => th.addEventListener('click', function () {
-                        const table = th.closest('table');
+                    Promise.all(promises).then(() => {
+                        // Initial sorting by ID (lowest first)
+                        const table = document.querySelector('#xatsTable');
                         const tbody = table.querySelector('tbody');
-                        Array.from(tbody.querySelectorAll('tr'))
-                            .sort((a, b) => {
-                                const idx = Array.from(th.parentNode.children).indexOf(th);
-                                const asc = this.asc = !this.asc;
-                                const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
-                                const comparer = (a, b) => ((v1, v2) =>
-                                    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
-                                )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-                                return comparer(a, b);
-                            })
-                            .forEach(tr => tbody.appendChild(tr));
-                        
-                        th.classList.toggle('sort-asc', this.asc);
-                        th.classList.toggle('sort-desc', !this.asc);
-                    }));
+                        const rowsArray = Array.from(tbody.querySelectorAll('tr'));
+                        rowsArray.sort((a, b) => {
+                            const aId = parseInt(a.children[0].textContent.replace(/[()]/g, ''));
+                            const bId = parseInt(b.children[0].textContent.replace(/[()]/g, ''));
+                            return aId - bId;
+                        });
+                        rowsArray.forEach(tr => tbody.appendChild(tr));
+
+                        // Adjust table sorting functionality to prevent stuck IDs
+                        document.querySelectorAll('th').forEach(th => th.addEventListener('click', function () {
+                            const table = th.closest('table');
+                            const tbody = table.querySelector('tbody');
+                            const idx = Array.from(th.parentNode.children).indexOf(th);
+                            const asc = this.asc = !this.asc;
+
+                            const rowsArray = Array.from(tbody.querySelectorAll('tr'));
+                            rowsArray.sort((a, b) => {
+                                const aVal = a.children[idx].innerText || a.children[idx].textContent;
+                                const bVal = b.children[idx].innerText || b.children[idx].textContent;
+                                if (!isNaN(parseInt(aVal)) && !isNaN(parseInt(bVal))) {
+                                    return asc ? parseInt(aVal) - parseInt(bVal) : parseInt(bVal) - parseInt(aVal);
+                                } else {
+                                    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                                }
+                            });
+                            rowsArray.forEach(tr => tbody.appendChild(tr));
+
+                            th.classList.toggle('sort-asc', this.asc);
+                            th.classList.toggle('sort-desc', !this.asc);
+                        }));
+                    });
+
+                    // Add the raining images effect
+                    const rainingImagesContainer = document.getElementById('rainingImages');
+                    const images = [
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(single)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(feast)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(adventure)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(winter)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(everypower)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(blastkick)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(mint)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(horror)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(rapid)_20.webp',
+                        'https://ti-r0.github.io/xatme/mstr/img/a_(bad)_20.webp'
+                    ];
+
+                    let activeImages = 0;
+                    const maxActiveImages = 10;
+
+                    function createRainingImage() {
+                        if (activeImages >= maxActiveImages) return;
+
+                        const img = document.createElement('img');
+                        img.src = images[Math.floor(Math.random() * images.length)];
+                        img.style.left = Math.random() * 100 + 'vw';
+                        img.style.animationDuration = Math.random() * 3 + 2 + 's';
+                        rainingImagesContainer.appendChild(img);
+                        activeImages++;
+
+                        // Remove the image once it falls off the screen
+                        img.addEventListener('animationend', () => {
+                            img.remove();
+                            activeImages--;
+                        });
+                    }
+
+                    setInterval(createRainingImage, 1000);
                 });
-
-            // Add the raining images effect
-            const rainingImagesContainer = document.getElementById('rainingImages');
-            const images = [
-                'https://ti-r0.github.io/xatme/mstr/img/a_(single)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(feast)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(adventure)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(winter)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(everypower)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(blastkick)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(mint)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(horror)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(rapid)_20?.png',
-                'https://ti-r0.github.io/xatme/mstr/img/a_(bad)_20?.png'
-            ];
-
-            let activeImages = 0;
-            const maxActiveImages = 10;
-
-            function createRainingImage() {
-                if (activeImages >= maxActiveImages) return;
-
-                const img = document.createElement('img');
-                img.src = images[Math.floor(Math.random() * images.length)];
-                img.style.left = Math.random() * 100 + 'vw';
-                img.style.animationDuration = Math.random() * 3 + 2 + 's';
-                rainingImagesContainer.appendChild(img);
-                activeImages++;
-
-                // Remove the image once it falls off the screen
-                img.addEventListener('animationend', () => {
-                    img.remove();
-                    activeImages--;
-                });
-            }
-
-            setInterval(createRainingImage, 1000);
         });
     </script>
 </body>
