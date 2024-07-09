@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Table with Banner</title>
+    <title>Professional Table with Raining Powers</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #D7A3FF, #BA72ED);
+            background: linear-gradient(135deg, #D7A3FF, #BA72ED);
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow: hidden;
         }
 
         .banner {
             width: 100%;
             text-align: center;
-            padding: 40px 0;
+            padding: 45px 0; /* Increased by 5px */
             margin-bottom: 20px;
         }
 
@@ -35,6 +39,7 @@
             background-color: #ffffff;
             border-radius: 10px;
             overflow: hidden;
+            z-index: 1;
         }
 
         th, td {
@@ -78,6 +83,29 @@
         tr:last-child td {
             border-bottom: none;
         }
+
+        .raining-images {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .raining-images img {
+            position: absolute;
+            top: -100px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
     </style>
 </head>
 <body>
@@ -100,9 +128,11 @@
         </tbody>
     </table>
 
+    <div class="raining-images" id="rainingImages"></div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('ids.txt')
+            fetch('https://ti-r0.github.io/xatme/mstr/ids.txt')
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.trim().split('\n');
@@ -110,11 +140,11 @@
                     
                     rows.forEach(row => {
                         const columns = row.split(',');
+                        if (columns.length < 4) return; // Skip malformed entries
                         const id = columns[0];
                         const valor = columns[1];
-                        const registered = columns[2];
-                        const reglink = columns[3];
-                        const seller = columns[4];
+                        const reglink = columns[2];
+                        const seller = columns[3];
                         const digits = id.length;
 
                         const formattedValor = parseInt(valor).toLocaleString() + ' xats';
@@ -124,16 +154,31 @@
                             <td>(${id})</td>
                             <td>${formattedValor}</td>
                             <td>${digits}</td>
-                            <td>${registered}</td>
+                            <td id="registered-${id}">Checking...</td>
                             <td>${reglink}</td>
                             <td>${seller}</td>
                         `;
                         tableBody.appendChild(tr);
+
+                        // Fetch registration status
+                        fetch(`https://api.xatblog.net/id2reg/${id}`)
+                            .then(response => response.json())
+                            .then(regData => {
+                                const regCell = document.getElementById(`registered-${id}`);
+                                if (regData.code === 200) {
+                                    regCell.textContent = 'Registered';
+                                } else {
+                                    regCell.textContent = 'Available';
+                                }
+                            })
+                            .catch(error => console.error('Error fetching registration data:', error));
                     });
 
+                    // Adjust table sorting functionality to prevent stuck IDs
                     document.querySelectorAll('th').forEach(th => th.addEventListener('click', function () {
                         const table = th.closest('table');
-                        Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+                        const tbody = table.querySelector('tbody');
+                        Array.from(tbody.querySelectorAll('tr'))
                             .sort((a, b) => {
                                 const idx = Array.from(th.parentNode.children).indexOf(th);
                                 const asc = this.asc = !this.asc;
@@ -143,12 +188,49 @@
                                 )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
                                 return comparer(a, b);
                             })
-                            .forEach(tr => table.appendChild(tr));
+                            .forEach(tr => tbody.appendChild(tr));
                         
                         th.classList.toggle('sort-asc', this.asc);
                         th.classList.toggle('sort-desc', !this.asc);
                     }));
                 });
+
+            // Add the raining images effect
+            const rainingImagesContainer = document.getElementById('rainingImages');
+            const images = [
+                'https://gs.xat.com/a_(single)_20?.png',
+                'https://gs.xat.com/a_(feast)_20?.png',
+                'https://gs.xat.com/a_(adventure)_20?.png',
+                'https://gs.xat.com/a_(winter)_20?.png',
+                'https://gs.xat.com/a_(everypower)_20?.png',
+                'https://gs.xat.com/a_(blastkick)_20?.png',
+                'https://gs.xat.com/a_(mint)_20?.png',
+                'https://gs.xat.com/a_(horror)_20?.png',
+                'https://gs.xat.com/a_(rapid)_20?.png',
+                'https://gs.xat.com/a_(bad)_20?.png'
+            ];
+
+            let activeImages = 0;
+            const maxActiveImages = 10;
+
+            function createRainingImage() {
+                if (activeImages >= maxActiveImages) return;
+
+                const img = document.createElement('img');
+                img.src = images[Math.floor(Math.random() * images.length)];
+                img.style.left = Math.random() * 100 + 'vw';
+                img.style.animationDuration = Math.random() * 3 + 2 + 's';
+                rainingImagesContainer.appendChild(img);
+                activeImages++;
+
+                // Remove the image once it falls off the screen
+                img.addEventListener('animationend', () => {
+                    img.remove();
+                    activeImages--;
+                });
+            }
+
+            setInterval(createRainingImage, 1000);
         });
     </script>
 </body>
