@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royalty</title>
+    <style>
+        @keyframes fillHeart {
+            0% { height: 0; }
+            100% { height: 100%; }
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffe6f2;
+            color: #000;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff0f5;
+            flex-direction: column;
+        }
+
+        .heart-container {
+            width: 100px;
+            height: 90px;
+            position: relative;
+            transform: rotate(-45deg);
+            background-color: #ff69b4;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .heart {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            position: absolute;
+            bottom: 0;
+            animation: fillHeart 3s linear forwards;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            width: 100px;
+            height: 90px;
+            position: absolute;
+            background: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 50px;
+            top: 0;
+        }
+
+        .profile-card-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 420px;
+            height: 560px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            border: 2px solid #ff69b4;
+        }
+
+        .window-controls {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            background-color: #ffe6f2;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .window-controls button {
+            background: none;
+            border: none;
+            color: #ff69b4;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .profile-card {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 150px;
+            background: url('https://i.pinimg.com/originals/da/ed/11/daed11c4d95b24a8d8656c5cbb092b81.gif') no-repeat center center;
+            background-size: cover;
+        }
+
+        .profile-picture {
+            position: absolute;
+            top: 110px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            border: 5px solid #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-icon {
+            position: absolute;
+            top: 150px;
+            left: 75px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff69b4;
+            border: 2px solid #fff;
+        }
+
+        .profile-info {
+            text-align: center;
+            padding-top: 170px;
+            padding-bottom: 20px;
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+            background: linear-gradient(45deg, #ffccff, #ff99cc, #cc33ff, #9933ff, #cc33ff, #ff99cc, #ffccff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientAnimation 10s ease infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #ff69b4;
+        }
+
+        .roles {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .role-item {
+            display: flex;
+            align-items: center;
+            padding: 0.2rem 0.4rem;
+            border: 1px solid #ff69b4;
+            border-radius: 0.3rem;
+            background-color: #fff0f5;
+            color: #ff69b4;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .role-item span {
+            margin-left: 0.3rem;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: #ffe6f2;
+            border-bottom: 1px solid #ff69b4;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tab-link {
+            padding: 10px;
+            flex: 1;
+            text-align: center;
+            background-color: transparent;
+            border: none;
+            color: #ff69b4;
+            cursor: pointer;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .tab-link.active {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        .tab-link.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff69b4;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+            background-color: #fff;
+            width: 100%;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        ul li {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ff69b4;
+            color: #ff69b4;
+            cursor: pointer;
+            justify-content: flex-start;
+        }
+
+        ul li img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        ul li a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            color: #ff4da6;
+        }
+
+        ul li:hover {
+            background-color: #ffe6f2;
+        }
+
+        /* Custom scrollbar styles */
+        ul::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ul::-webkit-scrollbar-track {
+            background: #ffe6f2;
+        }
+
+        ul::-webkit-scrollbar-thumb {
+            background: #ff69b4;
+            border-radius: 10px;
+        }
+
+        ul::-webkit-scrollbar-thumb:hover {
+            background: #ff4da6;
+        }
+
+        .connections a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
+
+        .connections a:hover {
+            text-decoration: underline;
+        }
+        
+        .bio {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #ffe6f2;
+            border-radius: 5px;
+            color: #ff69b4;
+        }
+
+        .minimized-window {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #ffe6f2;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .minimized-window img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .maximized .window-controls {
+            display: none;
+        }
+
+        .maximized .tabs {
+            display: none;
+        }
+
+        .maximized .profile-picture {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .maximized .window-controls {
+            display: flex;
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+
+        .maximized {
+            width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+            left: 0 !important;
+            transform: none !important;
+            border-radius: 0 !important;
+        }
+
+        /* Popup styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background-color: #ffe6f2;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            filter: brightness(80%);
+        }
+
+        .popup iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            filter: brightness(80%);
+        }
+
+        .popup .window-controls {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            z-index: 1001;
+            background: none;
+        }
+
+        .popup .window-controls button {
+            background: #ff69b4;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="heart-container">
+            <div class="heart"></div>
+        </div>
+    </div>
+    <div class="profile-card-container" id="profileCardContainer">
+        <div class="window-controls">
+            <button onclick="minimizeWindow()">_</button>
+            <button onclick="maximizeWindow()">□</button>
+            <button onclick="closeWindow()">×</button>
+        </div>
+        <div class="profile-card" id="profileCard">
+            <div class="background"></div>
+            <div class="profile-picture">
+                <img src="https://i.pinimg.com/originals/df/31/4e/df314edc116086a207473ae319950ee5.gif" alt="Profile Picture">
+                <div class="status-icon"></div>
+            </div>
+            <div class="profile-info">
+                <h1 id="username">Royalty ✧</h1>
+                <p>@kayla</p>
+                <div class="roles">
+                    <div class="role-item" onclick="removeRole(this)">📟<span>(79093157)</span></div>
+                    <div class="role-item" onclick="removeRole(this)">🙏<span>adorb</span></div>
+                    <div class="role-item verified" onclick="removeRole(this)">🙉<span>gamer</span></div>
+                    <div class="role-item" onclick="removeRole(this)">🗽<span>coffee lover</span></div>
+                </div>
+                <div class="tabs">
+                    <button class="tab-link active" onclick="openTab(event, 'about')">About Me</button>
+                    <button class="tab-link" onclick="openTab(event, 'friends')">7 Mutual Friends</button>
+                    <button class="tab-link" onclick="openTab(event, 'servers')">2 Mutual Servers</button>
+                </div>
+                <div id="about" class="tab-content active">
+                    <div class="bio">
+                        <p>imma spend my money like it's expiring, idc.</p>
+                    </div>
+                    <p>Tiro💜</p>
+                </div>
+                <div id="friends" class="tab-content">
+                    <ul>
+                        <li><a href="https://xat.me/goofy" target="_blank">Tiro 😍</a></li>
+                        <li><a href="https://xat.me/Reaper" target="_blank">iMan</a></li>
+                        <li><a href="https://xat.me/marie" target="_blank">marie</a></li>
+                        <li><a href="https://xat.me/milk" target="_blank">nat</a></li>
+                        <li><a href="https://xat.me/lemona" target="_blank">lemypie</a></li>
+                        <li><a href="https://xat.me/chaii" target="_blank">chaii</a></li>
+                        <li><a href="https://xat.me/Wolfie" target="_blank">Wolfie</a></li>
+                    </ul>
+                </div>
+                <div id="servers" class="tab-content">
+                    <ul>
+                        <li onclick="openPopup('https://xat.com/embed/chat.php#id=1913106&gn=Help')"><img src="https://xat.com/content/web/R00179//img/navbar/help.svg" alt="Help"> Help</li>
+                        <li onclick="openPopup('https://xat.com/embed/chat.php#id=5633523&gn=Trade')"><img src="https://xat.com/content/web/R00179//img/navbar/trade.svg" alt="Trade"> Trade</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="minimized-window" id="minimizedWindow" onclick="openWindow()">
+        <img src="https://i.pinimg.com/originals/df/31/4e/df314edc116086a207473ae319950ee5.gif" alt="Profile Picture">
+        Royalty's Xatspace
+    </div>
+
+    <div class="popup" id="popup">
+        <div class="window-controls">
+            <button onclick="closePopup()">×</button>
+        </div>
+        <iframe src="" id="popupIframe" scrolling="no"></iframe>
+    </div>
+
+    <script>
+        function openTab(event, tabName) {
+            var i, tabcontent, tablinks;
+
+            // Hide all tab content
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Remove "active" class from all tab links
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                tablinks[i].classList.remove('active');
+            }
+
+            // Show the current tab and add "active" class to the clicked tab link
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.classList.add('active');
+        }
+
+        // Display the first tab by default
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tab-content").style.display = "block";
+            document.querySelector(".tab-link").className += " active";
+        });
+
+        function removeRole(role) {
+            role.style.display = 'none';
+        }
+
+        function minimizeWindow() {
+            document.getElementById('profileCardContainer').style.display = 'none';
+            document.getElementById('minimizedWindow').style.display = 'flex';
+        }
+
+        function maximizeWindow() {
+            var profileCardContainer = document.getElementById('profileCardContainer');
+            profileCardContainer.classList.toggle('maximized');
+        }
+
+        function closeWindow() {
+            document.getElementById('profileCardContainer').style.display = 'none';
+            document.getElementById('minimizedWindow').style.display = 'flex';
+        }
+
+        function openWindow() {
+            document.getElementById('profileCardContainer').style.display = 'flex';
+            document.getElementById('minimizedWindow').style.display = 'none';
+        }
+
+        function openPopup(url) {
+            document.getElementById('popupIframe').src = url;
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('popupIframe').src = '';
+        }
+
+        // Show the loading screen initially
+        window.onload = function() {
+            setTimeout(showProfileCard, 3000);
+        };
+
+        function showProfileCard() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('profileCardContainer').style.display = 'flex';
+        }
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        dragElement(document.getElementById("profileCardContainer"));
+    </script>
+</body>
+</html>
