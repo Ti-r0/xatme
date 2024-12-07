@@ -37,7 +37,7 @@ var username = 'root';
 var folder = '~';
 
 //Print Greetings
-    $("#Terminal").append('Welcome to XAT SUSHI console<br/>');
+    $("#Terminal").append('<br/><br/><br/><br/>Welcome to XAT SUSHI console<br/>');
     $("#Terminal").append('The programs included in this XAT GUI are free to use, but there’s no warranty if you break something!<br/>');
     $("#Terminal").append('Proceed with caution—or dont, we really dont care.<br/><br/>');
 	//$("#Terminal").append('Type help to see available commands!<br/><br/>');
@@ -150,7 +150,7 @@ function ExecuteLine(command) {
     }
     //help
     else if (CurrentCommand == 'help' || CurrentCommand == '?') {
-	  $("#Terminal").append('Welcome to xatspace, version 1.69 (fun-unknown-cool-xatpro)<br/>');
+	  $("#Terminal").append('<br/><br/><br/><br/>Welcome to xatspace, version 1.69 (fun-unknown-cool-xatpro)<br/>');
 	  $("#Terminal").append('Explore the commands below to unlock the secrets of this profile.<br/><br/>');
       $("#Terminal").append('A star (*) next to a name means that the command is disabled.<br/>');
       $("#Terminal").append('cd [dir] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change directory<br/>');
