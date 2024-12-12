@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chica</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600'>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="container">
+  <div class="navbar">
+    <a href="#">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </a>
+    <div class="profile-pic">
+      <img src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/128.jpg" alt="" />
+      <div class="notification"></div>
+    </div>
+    <span>‎ ‎ ‎ </span>
+  </div>
+  
+  <div class="header">
+    <div class="color-overlay">
+      <div class="day-number">Chica</div>
+      <div class="date-right">
+        <div class="day-name">(49635006)</div>
+        <div class="month">Girl math is a real thing.</div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="timeline">
+    <ul>
+		<li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/chaii">
+          <h3>Chaii</h3>
+          <h4>❤️</h4>
+        </div></a>
+      </li>
+	    <li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/kait">
+          <h3>kait</h3>
+          <h4>❤️</h4>
+        </div></a>
+      </li>
+	    </li>
+	    <li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/reaper">
+          <h3>reaper</h3>
+          <h4></h4>
+        </div></a>
+      </li>
+      <li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/wolfie">
+          <h3>wolfie</h3>
+          <h4></h4>
+        </div></a>
+      </li>
+	    <li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/sushi">
+          <h3>Sushi</h3>
+          <h4></h4></a>
+        </div>
+      </li>
+	    <li>
+        <div class="bullet"></div>
+        <div class="desc">
+		<a href="https://xat.me/nicholas">
+          <h3>nicholas</h3>
+          <h4></h4>
+        </div></a>
+      </li>
+    </ul>
+	
+  </div>  
+</div>
+</body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Function to fetch the status
+    function fetchStatus() {
+      const friends = document.querySelectorAll(".timeline li");
+
+      friends.forEach(friend => {
+        const username = friend.querySelector("h3").textContent.trim();
+        const bullet = friend.querySelector(".bullet");
+
+        fetch(`https://illuxat.com/api/online/${username}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.code === 200) {
+              const status = data.data.status;
+              // Remove existing classes
+              bullet.className = "bullet";
+
+              // Update bullet color based on status
+              if (status === "Online") {
+                bullet.classList.add("green");
+              } else if (status === "Available") {
+                bullet.classList.add("orange");
+              } else if (status === "Offline") {
+                bullet.classList.add("pink");
+              }
+            }
+          })
+          .catch(error => {
+            console.error(`Error fetching status for ${username}:`, error);
+          });
+      });
+    }
+
+    // Fetch status on page load
+    fetchStatus();
+
+    // Optionally, refresh status every minute
+    setInterval(fetchStatus, 60000); // 60000ms = 1 minute
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Function to fetch the status
+    function fetchStatus() {
+      fetch('https://illuxat.com/api/online/chica')
+        .then(response => response.json())
+        .then(data => {
+          if (data.code === 200) {
+            const status = data.data.status; // Get the status
+            const notification = document.querySelector('.notification'); // Get the notification element
+            
+            // Remove existing notification classes
+            notification.classList.remove('notification-online', 'notification-available', 'notification-offline');
+
+            // Add the appropriate class based on status
+            if (status === 'Online') {
+              notification.classList.add('notification-online');
+            } else if (status === 'Available') {
+              notification.classList.add('notification-available');
+            } else if (status === 'Offline') {
+              notification.classList.add('notification-offline');
+            }
+          } else {
+            console.error('Error fetching status:', data);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching the API:', error);
+        });
+    }
+
+    // Fetch status on page load
+    fetchStatus();
+
+    // Optionally, refresh status every minute
+    setInterval(fetchStatus, 60000); // 60000ms = 1 minute
+  });
+</script>
