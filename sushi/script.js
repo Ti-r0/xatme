@@ -65,6 +65,7 @@ var folder = '~';
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">sn [username]</td><td style="padding-right: 10px;">-</td><td>Prices for shortnames</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('</table>');
 
 //Onload
@@ -179,8 +180,55 @@ function ExecuteLine(command) {
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">sn [username]</td><td style="padding-right: 10px;">-</td><td>Prices for shortnames</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('</table>');
     }
+	//User
+	else if (CurrentCommand.startsWith('user ')) {
+    const username = CurrentCommand.replace('user ', '').trim();
+    const apiURL = `https://api.xatstuff.com/userinfo/${username}/powers`;
+
+    if (!username) {
+        $("#Terminal").append("Usage: user <username><br/>");
+    } else {
+        // Fetch user information from the API
+        fetch(apiURL)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || `User "${username}" not found.`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.xat) {
+                    const { regname, id, nick, avatar, home, MarriedId } = data.xat;
+                    const social = data.xatme && data.xatme.social ? data.xatme.social : 'N/A';
+
+                    // Format married/best friend information
+                    const marriedInfo = MarriedId ? `Married to ID: ${MarriedId}` : 'Not married or no BFF';
+
+                    // Display user information
+                    $("#Terminal").append(`
+                        <br/>User Information:<br/>
+                        Username: ${regname} (${id})<br/>
+                        Nick: ${nick}<br/>
+                        Avatar: <a href="${avatar}" target="_blank">${avatar}</a><br/>
+                        Home: ${home || 'N/A'}<br/>
+                        Social: ${social}<br/>
+                        ${marriedInfo}<br/>
+                    `);
+                } else {
+                    $("#Terminal").append(`Error: User "${username}" not found!<br/>`);
+                }
+            })
+            .catch(error => {
+                $("#Terminal").append(`Error: ${error.message}<br/>`);
+            });
+    }
+}
+
 	//Open
 		else if (CurrentCommand.startsWith('open ')) {
 		const chatName = CurrentCommand.replace('open ', '').trim();
