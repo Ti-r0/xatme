@@ -170,8 +170,9 @@ function ExecuteLine(command) {
       $("#Terminal").append('<div>- Wolfie</div>');
       $("#Terminal").append('<div>- Nick</div>');
       $("#Terminal").append('<div>- Reaper</div>');
-	  $("#Terminal").append('<div>- Chica</div>');
-	  $("#Terminal").append('<div>- Flex</div>');
+      $("#Terminal").append('<div>- Updog</div>');
+      $("#Terminal").append('<div>- Chica</div>');
+      $("#Terminal").append('<div>- Flex</div>');
     }
     //Chat
     else if (CurrentCommand == 'chat') {
