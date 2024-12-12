@@ -66,6 +66,7 @@ var folder = '~';
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
 	$("#Terminal").append('</table>');
 
 //Onload
@@ -181,8 +182,51 @@ function ExecuteLine(command) {
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
 	$("#Terminal").append('</table>');
     }
+	//facts
+	    else if (CurrentCommand === 'facts') {
+    const randomFacts = [
+        "I'm 19 years old.",
+        "I live in Alabama.",
+        "I once wrestled a bear and won.",
+        "I can solve a Rubik's cube in under 30 seconds.",
+        "I have a pet turtle named Turbo.",
+        "I’ve climbed Mount Everest twice.",
+        "I’m fluent in four languages, including Klingon.",
+        "I’ve never had coffee in my life.",
+        "I once met Elon Musk at a gas station.",
+        "I can juggle five bowling pins at the same time.",
+        "I own a collection of over 500 rare coins.",
+        "I’ve eaten sushi every day for the past year.",
+        "I hold the world record for fastest typing.",
+        "I was once on a reality TV show.",
+        "I can name all the U.S. presidents in order from memory.",
+        "I once hitchhiked across Europe.",
+        "I have a photographic memory.",
+        "I was voted 'Most Likely to Become Famous' in high school.",
+        "I’ve written three unpublished novels.",
+        "I can play seven different musical instruments.",
+        "I’m a certified scuba diver.",
+        "I’ve been to all seven continents.",
+        "I was born with an extra toe, but had it removed.",
+        "I’ve never broken a bone in my life.",
+        "I once won a hotdog eating contest.",
+        "I have a black belt in karate.",
+        "I’ve acted as an extra in two Hollywood movies.",
+        "I’ve caught a fish with my bare hands.",
+        "I know how to fly a plane.",
+        "I once rode a unicycle for 10 miles straight."
+    ];
+
+    // Select a random fact
+    const randomFact = randomFacts[Math.floor(Math.random() * randomFacts.length)];
+
+    // Display the fact
+    $("#Terminal").append(`Fun Fact: ${randomFact}<br/>`);
+}
+
 	//User
 	else if (CurrentCommand.startsWith('user ')) {
     const username = CurrentCommand.replace('user ', '').trim();
