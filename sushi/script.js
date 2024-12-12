@@ -60,6 +60,11 @@ var folder = '~';
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">headsortails</td><td style="padding-right: 10px;">-</td><td>Simulate a coin toss</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">sudo apt update</td><td style="padding-right: 10px;">-</td><td>Simulate a fake package update</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">message [message]</td><td style="padding-right: 10px;">-</td><td>Send me a direct message, you can only send once everyday so make it count</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">price [power]</td><td style="padding-right: 10px;">-</td><td>Check out current prices for powers</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">latest</td><td style="padding-right: 10px;">-</td><td>Latest power</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">sn [username]</td><td style="padding-right: 10px;">-</td><td>Prices for shortnames</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('</table>');
 
 //Onload
@@ -168,9 +173,209 @@ function ExecuteLine(command) {
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">hi-lo [up/down]</td><td style="padding-right: 10px;">-</td><td>Guess if the next number is higher or lower</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">headsortails</td><td style="padding-right: 10px;">-</td><td>Simulate a coin toss</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">sudo apt update</td><td style="padding-right: 10px;">-</td><td>Simulate a fake package update</td></tr>');
-	$("#Terminal").append('<tr><td style="padding-right: 30px;">message <message></td><td style="padding-right: 10px;">-</td><td>Send me a direct message, you can only send once everyday so make it count</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">message [message]</td><td style="padding-right: 10px;">-</td><td>Send me a direct message, you can only send once everyday so make it count</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">price [power]</td><td style="padding-right: 10px;">-</td><td>Check out current prices for powers</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">latest</td><td style="padding-right: 10px;">-</td><td>Latest power</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">sn [username]</td><td style="padding-right: 10px;">-</td><td>Prices for shortnames</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">open [chat name]</td><td style="padding-right: 10px;">-</td><td>Opens any chat you want</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('</table>');
     }
+	//Open
+		else if (CurrentCommand.startsWith('open ')) {
+		const chatName = CurrentCommand.replace('open ', '').trim();
+		const apiURL = `https://illuxat.com/api/room/${chatName}`;
+
+		if (!chatName) {
+			$("#Terminal").append("Usage: open <chat_name><br/>");
+		} else {
+			// Fetch chat data from the API
+			fetch(apiURL)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(`Chat "${chatName}" not found.`);
+					}
+					return response.json();
+				})
+				.then(data => {
+					const chatID = data.data.ID; // Extract the chat ID from the API response
+					const chatURL = `https://xat.com/embed/chat.php#id=${chatID}`;
+
+					// Check if iframe is already open
+					if ($('#helpIframe').length > 0) {
+						$("#Terminal").append("Chat is already open.<br/>");
+					} else {
+						// Append the iframe to the terminal
+						$("#Terminal").append(`
+							<div id="helpIframeContainer" style="border: 1px solid #444; margin-top: 10px; overflow: hidden;">
+								<iframe id="helpIframe" src="${chatURL}" scrolling="no" style="width: 100%; height: 400px; border: none; overflow: hidden;"></iframe>
+								<button id="closeHelp" style="margin-top: 5px; padding: 5px; background: #444; color: #fff; border: none; cursor: pointer;">Close Chat</button>
+							</div>
+						`);
+
+						// Add functionality to close the iframe
+						$('#closeHelp').on('click', function () {
+							$('#helpIframeContainer').remove();
+							$("#Terminal").append("Chat closed.<br/>");
+						});
+					}
+				})
+				.catch(error => {
+					$("#Terminal").append(`Error: ${error.message}<br/>`);
+				});
+		}
+	}
+	// Fetch power price command
+	else if (CurrentCommand.startsWith('price ')) {
+		const powerName = CurrentCommand.replace('price ', '').trim();
+		const apiURL = `https://illuxat.com/api/power/${powerName}`;
+
+		if (!powerName) {
+			$("#Terminal").append("Usage: price <power_name><br/>");
+		} else {
+			// Fetch power price details from the API
+			fetch(apiURL)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(`Power "${powerName}" not found or unavailable.`);
+					}
+					return response.json();
+				})
+				.then(data => {
+					if (data.code === 200 && data.data) {
+						const powerDetails = data.data;
+						const { Name, Prices } = powerDetails;
+
+						// Display power price details
+						$("#Terminal").append(`
+							<br/>Power Details:<br/>
+							Name: <strong>${Name}</strong><br/>
+							Prices:<br/>
+							&nbsp;&nbsp;- Xats: ${Prices.xats || 'N/A'}<br/>
+							&nbsp;&nbsp;- Days: ${Prices.days || 'N/A'}<br/>
+							&nbsp;&nbsp;- Store: ${Prices.store || 'N/A'}<br/>
+						`);
+					} else {
+						$("#Terminal").append(`Error: Unable to retrieve details for power "${powerName}".<br/>`);
+					}
+				})
+				.catch(error => {
+					$("#Terminal").append(`Error: ${error.message}<br/>`);
+				});
+		}
+	}
+	//latest
+	else if (CurrentCommand === 'latest') {
+    const apiURL = 'https://illuxat.com/api/latestpower';
+
+    // Fetch the latest power details
+    fetch(apiURL)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch the latest power details.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.code === 200 && data.data && data.data.latest) {
+                const latestPower = data.data.latest;
+                const { Id, Name, Status, Prices, Descriptions } = latestPower;
+
+                // Display formatted output
+                $("#Terminal").append(`
+                    <br/>Latest Power Details:<br/>
+                    Name: <strong>${Name}</strong><br/>
+                    ID: ${Id}<br/>
+                    Status: ${Status}<br/>
+                    Store Status: ${latestPower.StoreStatus}<br/>
+                    Prices:<br/>
+                    &nbsp;&nbsp;- Xats: ${Prices.xats}<br/>
+                    &nbsp;&nbsp;- Days: ${Prices.days}<br/>
+                    &nbsp;&nbsp;- Store: ${Prices.store}<br/>
+                    Description: ${Descriptions.shortDescription}<br/>
+                    Long Description: ${Descriptions.longDescription}<br/>
+                `);
+            } else {
+                $("#Terminal").append('Error: Could not retrieve the latest power details.<br/>');
+            }
+        })
+        .catch(error => {
+            $("#Terminal").append(`Error: ${error.message}<br/>`);
+        });
+}
+
+	//shortname
+	else if (CurrentCommand.startsWith('sn ')) {
+    const username = CurrentCommand.replace('sn ', '').trim();
+    const apiURL = `https://illuxat.com/api/shortname/${username}`;
+
+    if (!username) {
+        $("#Terminal").append("Usage: sn <shortname><br/>");
+    } else {
+        // Fetch shortname status from the API
+        fetch(apiURL)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || `Error checking shortname "${username}".`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.code === 200) {
+                    if (data.data) {
+                        // Shortname is available
+                        const xats = data.data.xats;
+                        $("#Terminal").append(`The shortname "${username}" is available for ${xats} xats.<br/>`);
+                    } else {
+                        // Shortname is taken
+                        const message = data.message || `The shortname "${username}" is already taken.`;
+                        $("#Terminal").append(`${message}<br/>`);
+                    }
+                } else {
+                    $("#Terminal").append(`Error: Unable to check the shortname "${username}".<br/>`);
+                }
+            })
+            .catch(error => {
+                $("#Terminal").append(`Error: ${error.message}<br/>`);
+            });
+    }
+}
+
+	//onLine
+	else if (CurrentCommand.startsWith('online ')) {
+    const username = CurrentCommand.replace('online ', '').trim();
+    const apiURL = `https://illuxat.com/api/online/${username}`;
+
+    if (!username) {
+        $("#Terminal").append("Usage: online <username><br/>");
+    } else {
+        // Fetch online status from the API
+        fetch(apiURL)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || `Username "${username}" not found.`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.code === 200) {
+                    const userId = data.data.id;
+                    const status = data.data.status;
+                    $("#Terminal").append(`${username} (${userId}) is ${status.toLowerCase()}.<br/>`);
+                } else {
+                    $("#Terminal").append(`Error: Unable to retrieve status for "${username}".<br/>`);
+                }
+            })
+            .catch(error => {
+                $("#Terminal").append(`Error: ${error.message}<br/>`);
+            });
+    }
+	}
+
     //Friends
     else if (CurrentCommand == 'friends' || CurrentCommand == 'friend') {
       $("#Terminal").append('<div>Friends list:</div>');
