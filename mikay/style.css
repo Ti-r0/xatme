@@ -1,9 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('https://xatimg.com/image/kflU2gn9XnuH.jpg'); /* Replace with your image URL */
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-repeat: no-repeat; /* Prevents tiling */
+  background-attachment: fixed; /* Keeps the image fixed when scrolling */
+  background-position: center; /* Centers the image */
+}
 #insta,
 #insta * {
   box-sizing: border-box;
   
 }
-
+a {
+  text-decoration: none;
+  color: inherit;
+}
 #insta img {
   display: block;
 }
@@ -20,7 +32,11 @@
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
+  background-color: #ffffff; /* Adds a white background */
+  border-radius: 10px; /* Optional: Adds rounded corners for aesthetics */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds subtle shadow for a lifted effect */
 }
+
 
 
 #insta .flex {

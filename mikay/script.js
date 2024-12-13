@@ -3,7 +3,7 @@ $(document).ready((e) => {
     "https://xatimg.com/image/u6GsF2EB4PP7.jpg";
   const username = "Mikay";
   const profileDescription = "(505050505)";
-  const profileLove = "Wolfie";
+  const profileLove = "Wolfie❤️";
   const profileLink = "";
 
   $("#profile").show();
