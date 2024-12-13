@@ -1,71 +1,227 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Edit Your Xatspace</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .step {
-            margin-bottom: 20px;
-        }
-        .step img {
-            max-width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .step h2 {
-            color: #333;
-        }
-        .step p {
-            font-size: 1.1em;
-            line-height: 1.6em;
-            color: #666;
-        }
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #ccc;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Mikay</title>
+  <link rel="stylesheet" href="./style.css">
+
 </head>
 <body>
-    <div class="container">
-        <h1>How to Edit Your Xatspace</h1>
+<!-- partial:index.partial.html -->
+<div id="insta">
+  <!-- HEADER -->
+  <div id="top-menu-bar" class="flex">
+    <a target="profile"><svg aria-label="Home" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="22">
+        <path d="M45.3 48H30c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.5-.6 2.1 0l21.5 21.5c.4.4.6 1.1.3 1.6 0 .1-.1.1-.1.2v22.8c.1.8-.6 1.5-1.4 1.5zm-13.8-3h12.3V23.4L24 3.6l-20 20V45h12.3V34.2c0-4.3 3.3-7.6 7.6-7.6s7.6 3.3 7.6 7.6V45z">
+        </path>
+      </svg></a>
+    <img src="https://images2.imgbox.com/25/22/z7B5Jnww_o.png">
+    <svg aria-label="Direct" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="22">
+      <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+      </path>
+    </svg>
+  </div>
 
-        <div class="step">
-            <h2>Step 1: Go to Xatspace Edit Page</h2>
-            <p>Click on the following link to go to the Xatspace edit page:</p>
-            <p><a href="https://xat.com/editme" target="_blank">https://xat.com/editme</a></p>
-        </div>
+  <!-- PROFILE PAGE-->
+  <div id="profile" class="page-hidden">
+    <!-- PROFILE HEADER -->
 
-        <div class="step">
-            <h2>Step 2: Insert the Edit Image</h2>
-            <p>On the edit page, you will see options to customize your Xatspace. To make it easier, you can use the image below as a guide to turn off everything.</p>
-            <img src="https://i.imgur.com/CwcDsup.png" alt="Edit Xatspace">
+    <div id="profile-header" class="flex">
+
+      <img target="story1" class="profile-icon" />
+
+      <div id="profile-stats">
+        <div id="profile-following-stats">
+          <div>
+            <span>140</span>
+            posts
+          </div>
+          <div>
+            <span>1475</span>
+            followers
+          </div>
+          <div>
+            <span>178</span>
+            following
+          </div>
         </div>
+        <div id="profile-links">
+          <a href="/" class="active">Contact</a>
+          <a href="/">Follow</a>
+        </div>
+      </div>
     </div>
-    <footer>
-        <p>If you're interested in a Xatspace, contact Reaper (221192).</p>
-    </footer>
+    <div id="profile-description">
+      <b class="usernameText" target="profile"></b>
+      <p class="descriptionText"></p>
+	  <p class="loveText"></p>
+      <a class="profileLink"></a>
+    </div>
+    <div id="profile-bar" class="flex">
+      <div>
+        <svg aria-label="Posts" class="_8-yf5 " fill="#8e8e8e" height="24" viewBox="0 0 48 48" width="24">
+          <path clip-rule="evenodd" d="M45 1.5H3c-.8 0-1.5.7-1.5 1.5v42c0 .8.7 1.5 1.5 1.5h42c.8 0 1.5-.7 1.5-1.5V3c0-.8-.7-1.5-1.5-1.5zm-40.5 3h11v11h-11v-11zm0 14h11v11h-11v-11zm11 25h-11v-11h11v11zm14 0h-11v-11h11v11zm0-14h-11v-11h11v11zm0-14h-11v-11h11v11zm14 28h-11v-11h11v11zm0-14h-11v-11h11v11zm0-14h-11v-11h11v11z" fill-rule="evenodd"></path>
+        </svg>
+      </div>
+      <div>
+        <svg aria-label="Posts" class="_8-yf5 " fill="#8e8e8e" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M41 10c-2.2-2.1-4.8-3.5-10.4-3.5h-3.3L30.5 3c.6-.6.5-1.6-.1-2.1-.6-.6-1.6-.5-2.1.1L24 5.6 19.7 1c-.6-.6-1.5-.6-2.1-.1-.6.6-.7 1.5-.1 2.1l3.2 3.5h-3.3C11.8 6.5 9.2 7.9 7 10c-2.1 2.2-3.5 4.8-3.5 10.4v13.1c0 5.7 1.4 8.3 3.5 10.5 2.2 2.1 4.8 3.5 10.4 3.5h13.1c5.7 0 8.3-1.4 10.5-3.5 2.1-2.2 3.5-4.8 3.5-10.4V20.5c0-5.7-1.4-8.3-3.5-10.5zm.5 23.6c0 5.2-1.3 7-2.6 8.3-1.4 1.3-3.2 2.6-8.4 2.6H17.4c-5.2 0-7-1.3-8.3-2.6-1.3-1.4-2.6-3.2-2.6-8.4v-13c0-5.2 1.3-7 2.6-8.3 1.4-1.3 3.2-2.6 8.4-2.6h13.1c5.2 0 7 1.3 8.3 2.6 1.3 1.4 2.6 3.2 2.6 8.4v13zM34.6 25l-9.1 2.8v-3.7c0-.5-.2-.9-.6-1.2-.4-.3-.9-.4-1.3-.2l-11.1 3.4c-.8.2-1.2 1.1-1 1.9.2.8 1.1 1.2 1.9 1l9.1-2.8v3.7c0 .5.2.9.6 1.2.3.2.6.3.9.3.1 0 .3 0 .4-.1l11.1-3.4c.8-.2 1.2-1.1 1-1.9s-1.1-1.2-1.9-1z">
+          </path>
+        </svg>
+      </div>
+      <div>
+        <svg aria-label="Tagged" class="_8-yf5 " fill="#8e8e8e" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M41.5 5.5H30.4c-.5 0-1-.2-1.4-.6l-4-4c-.6-.6-1.5-.6-2.1 0l-4 4c-.4.4-.9.6-1.4.6h-11c-3.3 0-6 2.7-6 6v30c0 3.3 2.7 6 6 6h35c3.3 0 6-2.7 6-6v-30c0-3.3-2.7-6-6-6zm-29.4 39c-.6 0-1.1-.6-1-1.2.7-3.2 3.5-5.6 6.8-5.6h12c3.4 0 6.2 2.4 6.8 5.6.1.6-.4 1.2-1 1.2H12.1zm32.4-3c0 1.7-1.3 3-3 3h-.6c-.5 0-.9-.4-1-.9-.6-5-4.8-8.9-9.9-8.9H18c-5.1 0-9.4 3.9-9.9 8.9-.1.5-.5.9-1 .9h-.6c-1.7 0-3-1.3-3-3v-30c0-1.7 1.3-3 3-3h11.1c1.3 0 2.6-.5 3.5-1.5L24 4.1 26.9 7c.9.9 2.2 1.5 3.5 1.5h11.1c1.7 0 3 1.3 3 3v30zM24 12.5c-5.3 0-9.6 4.3-9.6 9.6s4.3 9.6 9.6 9.6 9.6-4.3 9.6-9.6-4.3-9.6-9.6-9.6zm0 16.1c-3.6 0-6.6-2.9-6.6-6.6 0-3.6 2.9-6.6 6.6-6.6s6.6 2.9 6.6 6.6c0 3.6-3 6.6-6.6 6.6z">
+          </path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- PROFILE PHOTOS -->
+    <div id="profile-grid">
+      <div class="profile-row flex">
+        <a class="profile-row-image" target="post1"><img src="https://xatimg.com/image/riPRzTptvACG.png" /></a>
+        <a class="profile-row-image" target="post2"><img src="https://xatimg.com/image/H4YVQZo6LNfc.png" /></a>
+        <a class="profile-row-image"><img src="https://xatimg.com/image/wwccHRZ8e8sv.png" /></a>
+      </div>
+      <div class="profile-row flex">
+        <a class="profile-row-image"><img src="https://xatimg.com/image/fOraxGoH3fpO.png" /></a>
+        <a class="profile-row-image"><img src="https://xatimg.com/image/buq6BhTY61Gq.png" /></a>
+        <a class="profile-row-image"><img src="https://xatimg.com/image/DXhJUqqSWoUY.png" /></a>
+      </div>
+      <div class="profile-row flex">
+        <a class="profile-row-image"><img src="https://xatimg.com/image/biCiWWiSjs91.png" /></a>
+        <a class="profile-row-image"><img src="https://xatimg.com/image/CeRwsuu4ucGX.png" /></a>
+        <a class="profile-row-image"><img src="https://xatimg.com/image/JZ5QGy4jsxjh.png" /></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTS -->
+  <div id="post1" class="page-hidden">
+    <div id="post">
+      <a id="post-user" class="flex">
+        <img class="profile-icon">
+        <div id="username" target="profile">
+          <b class="usernameText"></b>
+          <br />
+          <small id="post-location"></small>
+        </div>
+      </a>
+      <img id="post-image" src="https://xatimg.com/image/riPRzTptvACG.png">
+      <div id="post-buttons">
+        <svg aria-label="Like" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
+          </path>
+        </svg>
+        <svg aria-label="Comment" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path>
+        </svg>
+        <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+          </path>
+        </svg>
+      </div>
+      <div id="post-caption">
+        <b><a class="usernameText" target="profile"></a></b> Bold strokes, soft emotions 🎨
+        <br><br>
+        
+        <a id="post-comment-link" href="#">View all 200 comments</a>
+        <div id="comments">
+          <div>
+            <b><a>Wolfie</a></b> Beautiful art
+            <div class="reply"><b class="usernameText"></b> thank you</div>
+          </div>
+        </div>
+
+        <small id="post-date">December 4th, 2024</small>
+      </div>
+    </div>
+  </div>
+
+  <div id="post2" class="page-hidden">
+    <div id="post">
+      <a id="post-user" class="flex">
+        <img class="profile-icon">
+        <div id="username" target="profile">
+          <b class="usernameText"></b>
+          <br />
+          <small id="post-location">Hidden emotions 🎨</small>
+        </div>
+      </a>
+      <img id="post-image" src="https://xatimg.com/image/H4YVQZo6LNfc.png">
+      <div id="post-buttons">
+        <svg aria-label="Like" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
+          </path>
+        </svg>
+        <svg aria-label="Comment" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path clip-rule="evenodd" d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z" fill-rule="evenodd"></path>
+        </svg>
+        <svg aria-label="Share Post" class="_8-yf5 " fill="#262626" height="24" viewBox="0 0 48 48" width="24">
+          <path d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+          </path>
+        </svg>
+      </div>
+      <div id="post-caption">
+        <b><a class="usernameText" target="profile"></a></b> <span id="cap"></span>
+        <a id="post-comment-link" href="#">View all 142 comments</a>
+
+        <small id="post-date">November 20th, 2024</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORIES -->
+  <div id="story1" class="page-hidden">
+    <div id="story">
+      <div id="story-header">
+        <div id="story-bar" class="flex">
+          <div class="active" target="story1"></div>
+          <div target="story2"></div>
+        </div>
+
+        <div id="story-user" class="flex" target="profile">
+          <img class="profile-icon">
+          <div id="username" class="usernameText"></div>
+        </div>
+      </div>
+      <img src="https://xatimg.com/image/VFaeYRkhluk6.png" class="responsive-image">
+      <div id="story-comment">
+        <input type="text" value="Send message" />
+      </div>
+    </div>
+  </div>
+  <div id="story2" class="page-hidden">
+    <div id="story">
+      <div id="story-header">
+        <div id="story-bar" class="flex">
+          <div target="story1"></div>
+          <div class="active" target="story2"></div>
+        </div>
+
+        <div id="story-user" class="flex" target="profile">
+          <img class="profile-icon">
+          <div id="username" class="usernameText"></div>
+        </div>
+      </div>
+    <style>
+		  .responsive-image {
+			max-width: 100%;
+			height: auto;
+			display: block;
+		  }
+	</style>
+
+<img src="https://xatimg.com/image/4wx6VShUkWu8.png" class="responsive-image">
+      <div id="story-comment">
+        <input type="text" value="Send message" />
+      </div>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script><script  src="./script.js"></script>
+
 </body>
 </html>
