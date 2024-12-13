@@ -1,8 +1,8 @@
 $(document).ready((e) => {
   const mainIcon =
     "https://xatimg.com/image/u6GsF2EB4PP7.jpg";
-  const username = "Mikay";
-  const profileDescription = "(505050505)";
+  const username = "Mikay (505050505)";
+  const profileDescription = "Don’t be cute, be merciless";
   const profileLove = "Wolfie❤️";
   const profileLink = "";
 
