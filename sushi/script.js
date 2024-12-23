@@ -511,6 +511,22 @@ function ExecuteLine(command) {
     }
 	}
 
+	//Youtube player
+	// Music Play Command
+		else if (CurrentCommand === 'music play') {
+		  playVideo(); // Calls the function to play video
+		  $("#Terminal").append("Playing music...<br/>");
+		}
+		// Music Stop Command
+		else if (CurrentCommand === 'music stop') {
+		  stopVideo(); // Calls the function to stop video
+		  $("#Terminal").append("Music stopped.<br/>");
+		}
+		// Music Next Command
+		else if (CurrentCommand === 'music next') {
+		  playNextVideo(); // Calls the function to play the next video
+		  $("#Terminal").append("Playing next music...<br/>");
+		}
     //Friends
     else if (CurrentCommand == 'friends' || CurrentCommand == 'friend') {
       $("#Terminal").append('<div>Friends list:</div>');
@@ -714,23 +730,6 @@ function debouncePlayVideo() {
   debounceTimer = setTimeout(() => {
     playVideo();
   }, 300); // Waits 300ms to call playVideo, blocking further calls during this time
-}
-
-//Youtube player
-function ExecuteLine(command) {
-    $('.console-carrot').remove();
-    var CurrentCommand = command.toLowerCase();
-    if (CurrentCommand === 'play music') {
-        playVideo();
-        $("#Terminal").append("Playing music...<br/>");
-    } else if (CurrentCommand === 'stop music') {
-        stopVideo();
-        $("#Terminal").append("Music stopped.<br/>");
-    } else if (CurrentCommand === 'next music') {
-        playNextVideo();
-        $("#Terminal").append("Playing next music...<br/>");
-    }
-    // Add other command handlers here
 }
 
 //Generate id
