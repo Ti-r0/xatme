@@ -108,7 +108,7 @@ var folder = '~';
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
-	$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
+	//$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
 	$("#Terminal").append('</table>');
 
 //Onload
@@ -225,7 +225,7 @@ function ExecuteLine(command) {
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
-	$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
+	//$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
 	$("#Terminal").append('</table>');
     }
 	//facts
