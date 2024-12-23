@@ -30,6 +30,47 @@ $(document).ready(function() {
   }, 300); // Adjust speed of animation
 });
 
+//Youtube Player
+  // YouTube Player Setup
+  var player;
+  var currentVideoIndex = 0;
+  var videoIDs = ['9ao4FEaDGhQ', 'JJgGg1OXj90', '4ZHwu0uut3k']; // Add actual YouTube video IDs
+
+  window.onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('youtube-player-container', {
+      height: '0',
+      width: '0',
+      videoId: videoIDs[currentVideoIndex],
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.ENDED) {
+      playNextVideo();
+    }
+  }
+
+  function playVideo() {
+    player.loadVideoById(videoIDs[currentVideoIndex]);
+  }
+
+  function stopVideo() {
+    player.stopVideo();
+  }
+
+  function playNextVideo() {
+    currentVideoIndex = (currentVideoIndex + 1) % videoIDs.length;
+    playVideo();
+  }
+
 //Current line
 var CurrentId = undefined;
 var hostname = "Sushi";
@@ -67,6 +108,7 @@ var folder = '~';
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
 	$("#Terminal").append('</table>');
 
 //Onload
@@ -183,6 +225,7 @@ function ExecuteLine(command) {
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">online [username]</td><td style="padding-right: 10px;">-</td><td>See if any user is online</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">user [username]</td><td style="padding-right: 10px;">-</td><td>Check all users stats</td></tr>');
 	$("#Terminal").append('<tr><td style="padding-right: 30px;">facts</td><td style="padding-right: 10px;">-</td><td>Will tell you facts about me!</td></tr>');
+	$("#Terminal").append('<tr><td style="padding-right: 30px;">music [play/next/stop]</td><td style="padding-right: 10px;">-</td><td>Play music ex music play</td></tr>');
 	$("#Terminal").append('</table>');
     }
 	//facts
@@ -663,6 +706,35 @@ function ExecuteLine(command) {
       $("#Terminal").append(NewLine);
     }
   }
+}
+//Youtube player
+var debounceTimer;
+function debouncePlayVideo() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    playVideo();
+  }, 300); // Waits 300ms to call playVideo, blocking further calls during this time
+}
+
+// Modify this part in your command execution function
+function ExecuteLine(command) {
+    $('.console-carrot').remove();
+    command = command.toLowerCase().trim();
+
+    if (command === 'music play') {
+      debouncePlayVideo(); // Use the debounced version
+      $("#Terminal").append("Playing music...<br/>");
+    } else if (command === 'music stop') {
+      stopVideo();
+      $("#Terminal").append("Music stopped.<br/>");
+    } else if (command === 'music next') {
+      playNextVideo();
+      $("#Terminal").append("Playing next music...<br/>");
+    } else if (command.startsWith("echo ")) {
+      $("#Terminal").append(command.substring(5) + "<br/>");
+    } else {
+      $("#Terminal").append("-bash: " + command + ": command not found<br/>");
+    }
 }
 
 
