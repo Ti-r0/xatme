@@ -716,27 +716,22 @@ function debouncePlayVideo() {
   }, 300); // Waits 300ms to call playVideo, blocking further calls during this time
 }
 
-// Modify this part in your command execution function
+//Youtube player
 function ExecuteLine(command) {
     $('.console-carrot').remove();
-    command = command.toLowerCase().trim();
-
-    if (command === 'music play') {
-      debouncePlayVideo(); // Use the debounced version
-      $("#Terminal").append("Playing music...<br/>");
-    } else if (command === 'music stop') {
-      stopVideo();
-      $("#Terminal").append("Music stopped.<br/>");
-    } else if (command === 'music next') {
-      playNextVideo();
-      $("#Terminal").append("Playing next music...<br/>");
-    } else if (command.startsWith("echo ")) {
-      $("#Terminal").append(command.substring(5) + "<br/>");
-    } else {
-      $("#Terminal").append("-bash: " + command + ": command not found<br/>");
+    var CurrentCommand = command.toLowerCase();
+    if (CurrentCommand === 'play music') {
+        playVideo();
+        $("#Terminal").append("Playing music...<br/>");
+    } else if (CurrentCommand === 'stop music') {
+        stopVideo();
+        $("#Terminal").append("Music stopped.<br/>");
+    } else if (CurrentCommand === 'next music') {
+        playNextVideo();
+        $("#Terminal").append("Playing next music...<br/>");
     }
+    // Add other command handlers here
 }
-
 
 //Generate id
 function GenerateId() {
