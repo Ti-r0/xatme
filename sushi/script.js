@@ -360,6 +360,16 @@ function ExecuteLine(command) {
 				});
 		}
 	}
+
+	// Inside the ExecuteLine function, add the following case
+	
+	else if (CurrentCommand === 'whoami') {
+	  if (username) {
+	    $("#Terminal").append(username + "<br/>"); // Outputs the current user's name
+	  } else {
+	    $("#Terminal").append("No user logged in.<br/>"); // Handle case where no user is logged in
+	  }
+	}
 	// Fetch power price command
 	else if (CurrentCommand.startsWith('price ')) {
 		const powerName = CurrentCommand.replace('price ', '').trim();
