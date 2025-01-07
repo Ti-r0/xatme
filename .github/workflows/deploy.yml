@@ -13,14 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Node.js (optional, for installing dependencies)
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install dependencies (if you have any)
-      run: npm install
-
     - name: Inject Webhook URL into JavaScript
       run: |
         # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
