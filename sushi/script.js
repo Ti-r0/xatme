@@ -585,7 +585,7 @@ function ExecuteLine(command) {
 	    const message = CurrentCommand.replace('message ', '').trim();
 	
 	    // webhook url
-	    const webhookURL = 'DISCORD_WEBHOOK_URL';
+	    const webhookURL = 'https://discord.com/api/webhooks/1325993753756045435/1zDcvDBia5XpezKkREuuhaN7-lHJ-fEyWG1pt6ssK7s0595NkRQVAvtIjjxfT73Jdnzk';
 	
 	    // time
 	    const lastSentTimestamp = localStorage.getItem('lastMessageTimestamp');
