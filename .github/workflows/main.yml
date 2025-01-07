@@ -19,9 +19,9 @@ jobs:
       uses: alessandro-marcantoni/secret-injector-action@v0.1.0
       with:
         secrets: ${{ toJson(secrets) }}  # Inject secrets defined in your repository's Secrets section
-        env: ${{ toJson(env) }}  # Inject environment variables (optional, if you have any)
+        env: ${{ toJson(env) }}  # Optional if you have environment variables
 
-    # Step 3: Build and deploy to GitHub Pages
+    # Step 3: Build and deploy to GitHub Pages (or wherever you deploy)
     - name: Build and deploy to GitHub Pages
       run: |
         git config --global user.name 'GitHub Actions'
@@ -35,4 +35,4 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
         branch: gh-pages  # The branch you want to deploy to
-        folder: public    # The folder where your built website is located
+        folder: sushi    # Folder where your built website (or files) are located
