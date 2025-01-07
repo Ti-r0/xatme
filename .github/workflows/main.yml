@@ -10,13 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3  # Step to checkout the repository
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Mask Discord Webhook URL
-      run: echo "::add-mask::${{ secrets.DISCORD_WEBHOOK_URL }}"  # Masks the secret to prevent it from being exposed in logs
+      # Step 2: Mask Discord Webhook URL to prevent it from being exposed in logs
+      - name: Mask Discord Webhook URL
+        run: echo "::add-mask::${{ secrets.DISCORD_WEBHOOK_URL }}"  # Masks the secret to prevent it from being exposed in logs
 
-    - name: Inject Webhook URL into script.js
-      run: |
-        # Use 'sed' to replace the placeholder with the actual webhook URL in script.js
-        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
+      # Step 3: Inject the Discord Webhook URL into the script.js file
+      - name: Inject Webhook URL into script.js
+        run: |
+          # Use 'sed' to replace the placeholder 'DISCORD_WEBHOOK_URL' with the actual secret value from GitHub secrets in sushi/script.js
+          sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
