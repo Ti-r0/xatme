@@ -581,8 +581,8 @@ function ExecuteLine(command) {
       }
     }
 	// Add the message command
-	const webhookURL = 'https://discord.com/api/webhooks/1325993753756045435/1zDcvDBia5XpezKkREuuhaN7-lHJ-fEyWG1pt6ssK7s0595NkRQVAvtIjjxfT73Jdnzk';
-	
+	const webhookURL = 'LOLYOUCRAZY';
+	  
 	// Add the message command
 	else if (CurrentCommand.startsWith('message')) {
 	    const message = CurrentCommand.replace('message ', '').trim();
