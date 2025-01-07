@@ -581,13 +581,13 @@ function ExecuteLine(command) {
       }
     }
 	// Add the message command
+	const webhookURL = 'LOLYOUCRAZY';
+	
+	// Add the message command
 	else if (CurrentCommand.startsWith('message')) {
 	    const message = CurrentCommand.replace('message ', '').trim();
 	
-	    // webhook url
-	    const webhookURL = 'https://discord.com/api/webhooks/';
-	
-	    // time
+	    // Get the last sent timestamp from localStorage
 	    const lastSentTimestamp = localStorage.getItem('lastMessageTimestamp');
 	    const now = Date.now();
 	
