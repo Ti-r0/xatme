@@ -1,38 +1,20 @@
-name: Deploy to GitHub Pages
+name: Inject Secrets into script.js
 
-on:
-  push:
-    branches:
-      - main  # Deploys when pushing to the main branch
+on: [push, pull_request]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      # Checkout the repository
+    - uses: actions/checkout@v2
 
-    - name: Inject Webhook URL into JavaScript
+      # Inject the Discord webhook URL into script.js
+    - name: Inject Discord Webhook URL into script.js
       run: |
-        # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
         sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
 
-    - name: Check for changes and commit
+      # Optional: Print out the contents of script.js to verify
+    - name: Verify script.js contents
       run: |
-        git diff --exit-code
-        if [[ $? -ne 0 ]]; then
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add .
-          git commit -m "Deploy to GitHub Pages"
-          git push
-        else
-          echo "No changes to commit."
-        fi
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.2.3
-      with:
-        branch: gh-pages  # The branch you want to deploy to
-        folder: sushi    # The folder where your built website is located
+        cat sushi/script.js
