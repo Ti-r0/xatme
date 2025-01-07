@@ -14,11 +14,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    # Step 2: Inject Discord Webhook URL into script.js
-    - name: Inject Webhook URL into script.js
-      run: |
-        # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
-        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
+    # Step 2: Inject the Discord webhook URL into script.js using secret-injector-action
+    - name: Inject Discord Webhook URL into script.js
+      uses: alessandro-marcantoni/secret-injector-action@v0.1.0
+      with:
+        secrets: ${{ toJson(secrets) }}  # Inject secrets defined in your repository's Secrets section
+        env: ${{ toJson(env) }}  # Inject environment variables (optional, if you have any)
 
     # Step 3: Build and deploy to GitHub Pages
     - name: Build and deploy to GitHub Pages
