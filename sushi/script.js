@@ -582,42 +582,44 @@ function ExecuteLine(command) {
     }
 	// Add the message command
 	else if (CurrentCommand.startsWith('message')) {
-		const webhookURL = 'https://discord.com/api/webhooks/1316723146824355870/wnW2tv1pBYpu5grdFyfJFY9F81LfKhhIZ-Oq1dqnKobFHOd0LXDbFd0dnToluuVd0yl7'; // Replace with your webhook URL
-		const message = CurrentCommand.replace('message ', '').trim();
-
-		// Get the last sent timestamp from localStorage
-		const lastSentTimestamp = localStorage.getItem('lastMessageTimestamp');
-		const now = Date.now();
-
-		// Check if 24 hours have passed
-		if (lastSentTimestamp && now - parseInt(lastSentTimestamp) < 24 * 60 * 60 * 1000) {
-			const timeLeft = ((24 * 60 * 60 * 1000) - (now - parseInt(lastSentTimestamp))) / (60 * 60 * 1000);
-			$("#Terminal").append(`You can only send one message every 24 hours. Try again in ${timeLeft.toFixed(2)} hours.<br/>`);
-		} else if (!message) {
-			$("#Terminal").append("Usage: message <your message><br/>");
-		} else {
-			// Send the feedback to the Discord webhook
-			fetch(webhookURL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					content: `Message: ${message}`
-				})
-			})
-			.then(response => {
-				if (response.ok) {
-					$("#Terminal").append("Message sent successfully!<br/>");
-					// Store the current timestamp in localStorage
-					localStorage.setItem('lastMessageTimestamp', now.toString());
-				} else {
-					$("#Terminal").append("Failed to send message.<br/>");
-				}
-			})
-			.catch(error => {
-				console.error('Error sending message:', error);
-				$("#Terminal").append("An error occurred while sending message.<br/>");
-			});
-		}
+	    const message = CurrentCommand.replace('message ', '').trim();
+	
+	    // Use the injected webhook URL from the GitHub Actions workflow
+	    const webhookURL = 'DISCORD_WEBHOOK_URL';
+	
+	    // Get the last sent timestamp from localStorage
+	    const lastSentTimestamp = localStorage.getItem('lastMessageTimestamp');
+	    const now = Date.now();
+	
+	    // Check if 24 hours have passed
+	    if (lastSentTimestamp && now - parseInt(lastSentTimestamp) < 24 * 60 * 60 * 1000) {
+	        const timeLeft = ((24 * 60 * 60 * 1000) - (now - parseInt(lastSentTimestamp))) / (60 * 60 * 1000);
+	        $("#Terminal").append(`You can only send one message every 24 hours. Try again in ${timeLeft.toFixed(2)} hours.<br/>`);
+	    } else if (!message) {
+	        $("#Terminal").append("Usage: message <your message><br/>");
+	    } else {
+	        // Send the feedback to the Discord webhook
+	        fetch(webhookURL, {
+	            method: 'POST',
+	            headers: { 'Content-Type': 'application/json' },
+	            body: JSON.stringify({
+	                content: `Message: ${message}`
+	            })
+	        })
+	        .then(response => {
+	            if (response.ok) {
+	                $("#Terminal").append("Message sent successfully!<br/>");
+	                // Store the current timestamp in localStorage
+	                localStorage.setItem('lastMessageTimestamp', now.toString());
+	            } else {
+	                $("#Terminal").append("Failed to send message.<br/>");
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error sending message:', error);
+	            $("#Terminal").append("An error occurred while sending message.<br/>");
+	        });
+	    }
 	}
 
 	//Fake Command
