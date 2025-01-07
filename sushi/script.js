@@ -585,7 +585,7 @@ function ExecuteLine(command) {
 	    const message = CurrentCommand.replace('message ', '').trim();
 	
 	    // Use the injected webhook URL from the GitHub Actions workflow
-	    const webhookURL = 'DISCORD_WEBHOOK_URL';
+	    const webhookURL = 'https://discord.com/api/webhooks/';
 	
 	    // Get the last sent timestamp from localStorage
 	    const lastSentTimestamp = localStorage.getItem('lastMessageTimestamp');
