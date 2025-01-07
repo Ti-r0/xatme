@@ -10,22 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3  # Step to checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Mask Discord Webhook URL
-      run: echo "::add-mask::${{ secrets.DISCORD_WEBHOOK_URL }}"  # Masks the secret to prevent it from being exposed in logs
+      - name: Mask Discord Webhook URL
+        run: echo "::add-mask::${{ secrets.DISCORD_WEBHOOK_URL }}"  # Mask the secret to prevent it from being exposed in logs
 
-    - name: Inject Webhook URL into script.js
-      run: |
-        # Use 'sed' to replace the placeholder with the actual webhook URL in script.js
-        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
-        cat sushi/script.js  # Debug: print the content of script.js to verify replacement
+      - name: Inject Webhook URL into script.js
+        run: |
+          # Replace 'LOLYOUCRAZY' placeholder with the actual webhook URL from GitHub Secrets in sushi/script.js
+          sed -i 's|LOLYOUCRAZY|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
 
-    - name: Commit changes
-      run: |
-        git config --global user.name 'GitHub Actions'
-        git config --global user.email 'actions@github.com'
-        git add sushi/script.js
-        git commit -m "Inject Discord webhook URL into script.js"
-        git push
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add sushi/script.js
+          git commit -m "Inject Discord Webhook URL"
+          git push
