@@ -23,8 +23,8 @@ jobs:
 
     - name: Inject Webhook URL into JavaScript
       run: |
-        # Replace the placeholder in script.js with the actual Discord webhook URL from GitHub Secrets
-        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' public/script.js
+        # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
+        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
 
     - name: Build and deploy to GitHub Pages
       run: |
