@@ -28,7 +28,6 @@ jobs:
 
     - name: Build and deploy to GitHub Pages
       run: |
-        # Add any build steps here if you need them, otherwise just deploy
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
         git add .
