@@ -18,16 +18,21 @@ jobs:
         # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
         sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
 
-    - name: Build and deploy to GitHub Pages
+    - name: Check for changes and commit
       run: |
-        git config --global user.name 'GitHub Actions'
-        git config --global user.email 'actions@github.com'
-        git add .
-        git commit -m "Deploy to GitHub Pages"
-        git push
+        git diff --exit-code
+        if [[ $? -ne 0 ]]; then
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git push
+        else
+          echo "No changes to commit."
+        fi
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
         branch: gh-pages  # The branch you want to deploy to
-        folder: sushi      # Update to the correct folder
+        folder: sushi    # The folder where your built website is located
