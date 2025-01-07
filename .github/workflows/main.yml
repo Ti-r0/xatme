@@ -1,38 +1,31 @@
-name: Inject Discord Webhook into script.js
+name: Inject Discord Webhook URL into script.js
 
 on:
   push:
     branches:
-      - main  # Deploys when pushing to the main branch
+      - main  # Trigger the workflow on a push to the main branch
 
 jobs:
-  deploy:
+  inject-discord-webhook:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    # Step 2: Inject the Discord webhook URL into script.js using secret-injector-action
+    - name: Add Mask for Discord Webhook URL (for security)
+      run: echo "::add-mask::${{ secrets.DISCORD_WEBHOOK_URL }}"  # Mask the webhook URL for security in logs
+
     - name: Inject Discord Webhook URL into script.js
-      uses: alessandro-marcantoni/secret-injector-action@v0.1.0
-      with:
-        secrets: ${{ toJson(secrets) }}  # Inject secrets defined in your repository's Secrets section
-        env: ${{ toJson(env) }}  # Optional if you have environment variables
+      run: |
+        # Replace the placeholder in sushi/script.js with the actual Discord webhook URL from GitHub Secrets
+        sed -i 's|DISCORD_WEBHOOK_URL|'"${{ secrets.DISCORD_WEBHOOK_URL }}"'|g' sushi/script.js
+        echo "Discord Webhook URL has been injected into script.js."
 
-    # Step 3: Build and deploy to GitHub Pages (or wherever you deploy)
-    - name: Build and deploy to GitHub Pages
+    - name: Commit and push changes to GitHub
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        git add .
-        git commit -m "Deploy to GitHub Pages"
+        git add sushi/script.js  # Add the modified script.js file
+        git commit -m "Inject Discord Webhook URL into script.js"
         git push
-
-    # Step 4: Deploy to GitHub Pages
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.2.3
-      with:
-        branch: gh-pages  # The branch you want to deploy to
-        folder: sushi
