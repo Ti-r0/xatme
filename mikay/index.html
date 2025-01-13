@@ -7,6 +7,31 @@
 
 </head>
 <body>
+<!--- Music -->
+<audio id="bat-sound" loop>
+    <source src="https://trimist.github.io/xatme/mikay/music.m4a" type="audio/mpeg">
+    Your browser does not support the bat sounds :(
+</audio>
+
+<script>
+    // Get the audio element
+    var audio = document.getElementById('bat-sound');
+    var hasInteracted = false;
+
+    // Function to start playing the sound
+    function startAudio() {
+        if (!hasInteracted) {  // Ensure audio starts only once
+            audio.play();
+            hasInteracted = true; // Flag to ensure it's triggered only once
+        }
+    }
+
+    // Listen for any interaction on the page (click, scroll, keypress)
+    window.addEventListener('click', startAudio);
+    window.addEventListener('scroll', startAudio);
+    window.addEventListener('keypress', startAudio);
+</script>
+	
 <!-- partial:index.partial.html -->
 <div id="insta">
   <!-- HEADER -->
