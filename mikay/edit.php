@@ -1,31 +1,26 @@
 <?php
-// Define the correct password
-$correct_password = 'mikay123';
+$correct_password = '84923432'; // Define the correct password
 
-// Check if the password parameter matches
-if (isset($_GET['pw']) && $_GET['pw'] === $correct_password) {
+if (isset($_GET['pw']) && $_GET['pw'] === $correct_password && isset($_GET['yt'])) {
     $file_path = 'yt.txt';
     
-    // Read the content of the file
-    $content = file_exists($file_path) ? file_get_contents($file_path) : '';
-
-    // Check for form submission
+    // Check if the form was submitted to update the file content
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
-        // Save the new content to the file
         file_put_contents($file_path, $_POST['content']);
         echo "File updated successfully!";
+    } else {
+        $content = $_GET['yt']; // Get the new content directly from the URL
+        file_put_contents($file_path, $content);
+        echo "Content updated via URL.";
     }
-    ?>
-
-    <!-- HTML form for editing -->
-    <form method="post">
-        <textarea name="content" rows="10" cols="30"><?php echo htmlspecialchars($content); ?></textarea>
-        <br>
-        <button type="submit">Save Changes</button>
-    </form>
-
-    <?php
 } else {
-    echo "Invalid access.";
+    // Load existing content if no update is done
+    $content = file_exists($file_path) ? file_get_contents($file_path) : '';
 }
 ?>
+
+<form method="post">
+    <textarea name="content" rows="10" cols="30"><?php echo htmlspecialchars($content); ?></textarea>
+    <br>
+    <button type="submit">Save Changes</button>
+</form>
