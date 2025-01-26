@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #505050, #686868, #686868, #505050);
+            background-color: #000000;
             color: #000;
             display: flex;
             justify-content: center;
@@ -32,16 +32,15 @@
             font-family: Arial, sans-serif;
             font-style: normal;
         }
-
-        .profile-card {
-            width: 420px;
-            height: 400px;
-            background-color: #808080;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
+		.profile-card {
+			width: 420px;
+			height: 400px;
+			background-color: #000000;
+			border-radius: 10px;
+			overflow: hidden;
+			box-shadow: 0 0 20px 10px rgba(255, 0, 158, 0.8); /* Adjusted for a pink glow */
+			position: relative;
+		}
 
         .background {
             position: relative;
@@ -56,10 +55,10 @@
 			left: 20px;
 			width: 80px;
 			height: 80px;
-			border: 5px solid #d5a6bf;
+			border: 5px solid #ff009e;
 			border-radius: 50%;
 			overflow: hidden;
-			background-color: #d5a6bf;
+			background-color: #ff009e;
 			transition: transform 0.3s ease;  /* Smooth transition for scaling */
 		}
 
@@ -88,7 +87,7 @@
             text-align: center;
             padding-top: 85px;
             padding-bottom: 20px;
-            background-color: #808080;
+            background-color: #000000;
             color: #333;
         }
 
@@ -142,7 +141,7 @@
         .bio {
             margin: 10px 0;
             padding: 10px;
-            background-color: #808080;
+            background-color: #000000;
             border-radius: 5px;
             color: #333;
         }
@@ -191,10 +190,10 @@
         .profile-picture-footer {
             width: 70px;
             height: 70px;
-            border: 5px solid #d5a6bf;
+            border: 5px solid #ff009e;
             border-radius: 50%;
             overflow: hidden;
-            background-color: #d5a6bf;
+            background-color: #ff009e;
         }
 
         .profile-picture-footer img {
@@ -214,7 +213,7 @@
 			box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 			border-radius: 8px;
 			padding: 20px;
-			padding-top: 40px;
+			padding-top: 40px; /* Extra padding to accommodate the close button */
 			display: none;
 			z-index: 1000;
 			text-align: center;
@@ -237,7 +236,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			user-select: none;
+			user-select: none; /* Prevent text selection */
 			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 		}
 
@@ -296,5 +295,8 @@
         });
     });
 </script>
+
+	
 </body>
+
 </html>
