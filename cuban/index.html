@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #aa87a3, #d1b1c7);
+            background: linear-gradient(45deg, #505050, #686868, #686868, #505050);
             color: #000;
             display: flex;
             justify-content: center;
@@ -36,7 +36,7 @@
         .profile-card {
             width: 420px;
             height: 400px;
-            background-color: #d5a6bf;
+            background-color: #808080;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -50,23 +50,28 @@
             background-size: cover;
         }
 
-        .profile-picture {
-            position: absolute;
-            top: 110px;
-            left: 20px;
-            width: 80px;
-            height: 80px;
-            border: 5px solid #d5a6bf;
-            border-radius: 50%;
-            overflow: hidden;
-            background-color: #d5a6bf;
-        }
+		.profile-picture {
+			position: absolute;
+			top: 110px;
+			left: 20px;
+			width: 80px;
+			height: 80px;
+			border: 5px solid #d5a6bf;
+			border-radius: 50%;
+			overflow: hidden;
+			background-color: #d5a6bf;
+			transition: transform 0.3s ease;  /* Smooth transition for scaling */
+		}
 
-        .profile-picture img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+		.profile-picture img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.profile-picture:hover {
+			transform: scale(1.3);  /* Increase size by 20% on hover */
+		}
 
         .status-icon {
             position: absolute;
@@ -83,7 +88,7 @@
             text-align: center;
             padding-top: 85px;
             padding-bottom: 20px;
-            background-color: #d5a6bf;
+            background-color: #808080;
             color: #333;
         }
 
@@ -137,7 +142,7 @@
         .bio {
             margin: 10px 0;
             padding: 10px;
-            background-color: #d5a6bf;
+            background-color: #808080;
             border-radius: 5px;
             color: #333;
         }
@@ -176,6 +181,69 @@
 			-webkit-text-fill-color: transparent;
 		}
 
+        footer {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .profile-picture-footer {
+            width: 70px;
+            height: 70px;
+            border: 5px solid #d5a6bf;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #d5a6bf;
+        }
+
+        .profile-picture-footer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+		.popup {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 300px;
+			height: 200px;
+			background-color: #fff;
+			box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+			border-radius: 8px;
+			padding: 20px;
+			padding-top: 40px;
+			display: none;
+			z-index: 1000;
+			text-align: center;
+			box-sizing: border-box;
+		}
+
+		.close-btn {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			font-size: 16px;
+			line-height: 16px;
+			width: 30px;
+			height: 30px;
+			text-align: center;
+			cursor: pointer;
+			border-radius: 50%;
+			background-color: #ccc;
+			color: #fff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			user-select: none;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+
+		.close-btn:hover {
+			background-color: #b0b0b0;
+		}
     </style>
 </head>
 
@@ -200,6 +268,33 @@
             </div>
         </div>
     </div>
-</body>
+	<footer>
+        <div class="profile-picture-footer">
+            <img src="https://xatimg.com/image/K4ysNWB1yqGQ.jpg" alt="Profile Picture">
+        </div>
+    </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileFooter = document.querySelector('.profile-picture-footer');
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.innerHTML = `
+            <div class="close-btn">&times;</div>
+            <h2>About Me</h2>
+            <p>I love my boyfriend Andres</p>
+			<p>that's it</p>
+        `;
+        document.body.appendChild(popup);
 
+        const closeButton = popup.querySelector('.close-btn');
+        closeButton.addEventListener('click', function() {
+            popup.style.display = 'none';
+        });
+
+        profileFooter.addEventListener('click', function() {
+            popup.style.display = 'block';
+        });
+    });
+</script>
+</body>
 </html>
